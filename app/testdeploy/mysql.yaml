@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  creationTimestamp: null
+  labels:
+    run: mysqldb
+  name: mysqldb
+spec:
+  containers:
+  - name: {{ .Values.mysql.sql_db_name }}
+    image: {{ .Values.mysql.sql_image }}
+    env:
+    - name: MYSQL_ROOT_PASSWORD
+      valueFrom: 
+        secretKeyRef: 
+          key: ROOTPASSWORD
+          name: mysql-secret
+    - name: MYSQL_DATABASE
+      valueFrom: 
+        secretKeyRef: 
+          key: BASENAME
+          name: mysql-secret
+    - name: MYSQL_USER
+      valueFrom: 
+        secretKeyRef: 
+          key: USERNAME
+          name: mysql-secret
+    - name: MYSQL_PASSWORD
+      valueFrom: 
+        secretKeyRef: 
+          key: PASSWORD
+          name: mysql-secret
+    ports:
+    - name: tpc
+      protocol: TCP
+      containerPort: 3306
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}

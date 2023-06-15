@@ -1,0 +1,41 @@
+### Front ANGULAR
+front:
+  replicaCount: 1
+  appname: angular-webapp
+  image:
+    angular_image: yelle/app_frontend:latest
+    pullPolicy: Always
+###
+
+### Back LARAVEL
+back:
+  replicaCount: 1
+  image:
+    laravel_image: yelle/app_backend:latest
+    pullPolicy: Always
+  application:
+    name: backend-laravel
+  hpa:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 10
+    averageCpuUtilization: 50
+
+###
+
+### MYSQL
+mysql:
+  replicaCount: 1
+  sql_image: mysql:5.7
+  sql_db_name: mysqldb
+###
+
+### Rabbit
+rabbitmq:
+  replicaCount: 1
+  image: rabbitmq:latest
+
+### Elasticsearch
+elasticsearch:
+  image: elasticsearch:6.5.0
+  replicas: 1
